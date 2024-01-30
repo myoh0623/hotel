@@ -1,5 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 from bs4 import BeautifulSoup
 import time
 import pandas as pd
@@ -36,11 +39,12 @@ class AgodaHotelCrawler:
 
     def crawl(self):
         options = Options()
+        options.add_experimental_option("detach", True)
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
 
-        with webdriver.Chrome(options=options) as driver:
+        with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) as driver:
             driver.get(self.url)
             time.sleep(3)  # Waiting for page to load
             html = driver.page_source
