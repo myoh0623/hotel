@@ -32,7 +32,7 @@ class AgodaHotelCrawler:
     @staticmethod
     def extract_one_night_rate(text):
         matches = re.findall(r'₩\s*(\d+(?:,\d+)*)\s*1박당\s*요금', text)
-        return int(matches[0].replace(',', '')) if matches else None
+        return str(matches[0].replace(',', '')) if matches else None
 
     def crawl(self):
 
