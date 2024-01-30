@@ -6,6 +6,7 @@ import pandas as pd
 import re
 import json
 
+
 class AgodaHotelCrawler:
     def __init__(self, url):
         self.url = url

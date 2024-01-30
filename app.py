@@ -18,15 +18,14 @@ urls = [
     url_migliore
     ]
 
-if st.button('Crawl Hotels'):
-    with ThreadPoolExecutor() as executor:
-        # Start the operations and mark each future with its URL
-        future_to_url = {executor.submit(crawl_hotel, url): url for url in urls}
-        for future in concurrent.futures.as_completed(future_to_url):
-            url = future_to_url[future]
-            try:
-                hotel_name, hotel_data = future.result()
-                st.write(hotel_name)
-                st.dataframe(hotel_data)
-            except Exception as exc:
-                st.write(f'{url} generated an exception: {exc}')
+with ThreadPoolExecutor() as executor:
+    # Start the operations and mark each future with its URL
+    future_to_url = {executor.submit(crawl_hotel, url): url for url in urls}
+    for future in concurrent.futures.as_completed(future_to_url):
+        url = future_to_url[future]
+        try:
+            hotel_name, hotel_data = future.result()
+            st.write(hotel_name)
+            st.dataframe(hotel_data)
+        except Exception as exc:
+            st.write(f'{url} generated an exception: {exc}')
