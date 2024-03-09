@@ -40,6 +40,8 @@ class AgodaHotelCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument(f'user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36')
+
 
         with webdriver.Chrome(options=options) as driver:
             driver.get(self.url)
@@ -55,7 +57,6 @@ class AgodaHotelCrawler:
             room_name = room.find("div", {"class": "MasterRoom-header"}).text
             room_service = room.find("div", {"class": "ChildRoomsList-room-featurebuckets"}).text
             room_price = room.find("div", {"class": "ChildRoom__PriceContainer"}).text
-
             room_price = self.extract_one_night_rate(room_price)
             df.loc[len(df)] = [room_price, room_name, room_service]
         return hotel_name, df
